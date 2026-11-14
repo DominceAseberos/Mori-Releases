@@ -4,25 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mori Launcher — Peaceful Living Landscape Android Launcher</title>
-  <meta name="description" content="A peaceful, aesthetic living landscape home screen for Android with real-time sun/moon trajectories, live animated wallpaper, dynamic lock screen sync, and zero clutter.">
+  <meta name="description" content="A tranquil, minimalist living landscape launcher for Android. Features real-time celestial sun & moon orbits, 60fps live wallpaper, dynamic lock screen sync, and zero clutter.">
   <meta name="theme-color" content="#131022">
 
-  <!-- Open Graph / Meta -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Mori Launcher — Aesthetic Living Landscape Android Launcher">
-  <meta property="og:description" content="Minimalist, tranquil Android launcher with living 60fps scenery, real-time celestial trajectory, and dynamic lock screen sync.">
-  <meta property="og:image" content="assets/mori_preview.png">
-  <link rel="icon" type="image/png" href="assets/mori_icon.png">
+  <!-- Favicon & Icons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/mori_icon.png">
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+  <link rel="apple-touch-icon" href="assets/mori_icon.png">
 
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Mori Launcher — Peaceful Living Landscape Android Launcher">
+  <meta property="og:description" content="Minimalist, tranquil Android launcher with living 60fps scenery, real-time celestial trajectory, and dynamic lock screen sync.">
+  <meta property="og:image" content="assets/mori_icon.png">
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --bg: #131022;
       --card-bg: #1B152B;
-      --card-border: rgba(126, 97, 154, 0.28);
+      --card-hover: #221A37;
+      --card-border: rgba(126, 97, 154, 0.25);
+      --card-border-hover: rgba(200, 166, 255, 0.45);
       --accent: #C8A6FF;
       --accent-glow: rgba(200, 166, 255, 0.35);
       --accent-hover: #b68ef5;
@@ -47,21 +54,21 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Background Ambient Glow */
+    /* Background Ambient Atmosphere */
     .ambient-glow {
       position: fixed;
-      top: -200px;
+      top: -240px;
       left: 50%;
       transform: translateX(-50%);
-      width: 800px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(147, 95, 219, 0.2) 0%, rgba(19, 16, 34, 0) 70%);
+      width: 900px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(147, 95, 219, 0.22) 0%, rgba(19, 16, 34, 0) 70%);
       z-index: -1;
       pointer-events: none;
     }
 
     .container {
-      max-width: 1040px;
+      max-width: 1060px;
       margin: 0 auto;
       padding: 0 24px;
     }
@@ -83,15 +90,20 @@
     }
 
     .brand img {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      box-shadow: 0 4px 14px var(--accent-glow);
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      box-shadow: 0 4px 16px var(--accent-glow);
+      transition: transform 0.2s ease;
+    }
+
+    .brand:hover img {
+      transform: scale(1.06);
     }
 
     .brand-name {
       font-family: 'Outfit', sans-serif;
-      font-size: 20px;
+      font-size: 21px;
       font-weight: 700;
       letter-spacing: -0.5px;
     }
@@ -99,7 +111,7 @@
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 20px;
     }
 
     .nav-link {
@@ -114,9 +126,9 @@
       color: var(--accent);
     }
 
-    /* Hero Section */
+    /* Hero */
     .hero {
-      padding: 60px 0 40px;
+      padding: 64px 0 44px;
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -127,15 +139,15 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(200, 166, 255, 0.12);
-      border: 1px solid rgba(200, 166, 255, 0.3);
-      padding: 6px 14px;
+      background: rgba(200, 166, 255, 0.1);
+      border: 1px solid rgba(200, 166, 255, 0.25);
+      padding: 6px 15px;
       border-radius: 30px;
       font-size: 13px;
       font-weight: 600;
       color: var(--accent);
       margin-bottom: 24px;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
     }
 
     .badge-pill .pulse-dot {
@@ -155,10 +167,10 @@
 
     .hero-title {
       font-family: 'Outfit', sans-serif;
-      font-size: clamp(38px, 6vw, 64px);
+      font-size: clamp(40px, 6vw, 68px);
       font-weight: 800;
-      line-height: 1.15;
-      letter-spacing: -1.5px;
+      line-height: 1.12;
+      letter-spacing: -1.8px;
       margin-bottom: 20px;
       background: linear-gradient(180deg, #FFFFFF 20%, #E9D8FD 100%);
       -webkit-background-clip: text;
@@ -168,12 +180,12 @@
     .hero-subtitle {
       font-size: clamp(16px, 2.5vw, 20px);
       color: var(--text-muted);
-      max-width: 620px;
+      max-width: 640px;
       margin: 0 auto 36px;
       line-height: 1.5;
     }
 
-    /* Dynamic Download Button Area */
+    /* Dynamic Download CTA */
     .cta-group {
       display: flex;
       flex-direction: column;
@@ -200,13 +212,12 @@
       box-shadow: 0 10px 30px var(--accent-glow);
       transition: all 0.25s ease;
       position: relative;
-      overflow: hidden;
     }
 
     .btn-download:hover {
       background: var(--accent-hover);
       transform: translateY(-2px);
-      box-shadow: 0 14px 38px rgba(200, 166, 255, 0.45);
+      box-shadow: 0 14px 40px rgba(200, 166, 255, 0.45);
     }
 
     .btn-download:active {
@@ -230,9 +241,9 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 9px;
       width: 100%;
-      background: rgba(126, 97, 154, 0.15);
+      background: rgba(126, 97, 154, 0.14);
       border: 1px solid var(--card-border);
       color: var(--text);
       padding: 12px 24px;
@@ -244,7 +255,7 @@
     }
 
     .btn-github:hover {
-      background: rgba(126, 97, 154, 0.28);
+      background: rgba(126, 97, 154, 0.26);
       border-color: rgba(200, 166, 255, 0.4);
     }
 
@@ -265,17 +276,16 @@
 
     /* Phone Mockup Display */
     .preview-showcase {
-      margin: 50px 0 70px;
+      margin: 54px 0 74px;
       display: flex;
       justify-content: center;
-      position: relative;
     }
 
     .phone-frame {
-      width: 280px;
-      border-radius: 36px;
-      border: 4px solid rgba(200, 166, 255, 0.2);
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 50px -10px var(--accent-glow);
+      width: 284px;
+      border-radius: 38px;
+      border: 4px solid rgba(200, 166, 255, 0.22);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.75), 0 0 50px -10px var(--accent-glow);
       background: #1B152B;
       overflow: hidden;
       transition: transform 0.4s ease;
@@ -291,24 +301,24 @@
       display: block;
     }
 
-    /* Features Grid */
+    /* Features Section */
     .features-section {
       padding: 40px 0 60px;
     }
 
     .section-title {
       font-family: 'Outfit', sans-serif;
-      font-size: 28px;
+      font-size: 30px;
       font-weight: 700;
       text-align: center;
-      margin-bottom: 36px;
-      letter-spacing: -0.5px;
+      margin-bottom: 38px;
+      letter-spacing: -0.6px;
     }
 
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 22px;
     }
 
     .feature-card {
@@ -320,15 +330,29 @@
     }
 
     .feature-card:hover {
-      border-color: rgba(200, 166, 255, 0.45);
+      background: var(--card-hover);
+      border-color: var(--card-border-hover);
       transform: translateY(-3px);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.4);
     }
 
-    .feature-icon {
-      font-size: 32px;
-      margin-bottom: 14px;
-      display: inline-block;
+    .feature-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: rgba(200, 166, 255, 0.12);
+      border: 1px solid rgba(200, 166, 255, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      color: var(--accent);
+    }
+
+    .feature-icon-box svg {
+      width: 24px;
+      height: 24px;
+      stroke-width: 2;
     }
 
     .feature-title {
@@ -351,34 +375,43 @@
     }
 
     .changelog-card {
-      background: linear-gradient(180deg, #1F1833 0%, #171226 100%);
-      border: 1px solid rgba(200, 166, 255, 0.25);
-      border-radius: 20px;
-      padding: 28px;
+      background: linear-gradient(180deg, #1E1731 0%, #161225 100%);
+      border: 1px solid rgba(200, 166, 255, 0.22);
+      border-radius: 22px;
+      padding: 30px;
     }
 
     .changelog-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 12px;
     }
 
     .changelog-tag {
       font-family: 'Outfit', sans-serif;
-      font-size: 18px;
+      font-size: 19px;
       font-weight: 700;
       color: var(--accent);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+    }
+
+    .changelog-tag svg {
+      width: 20px;
+      height: 20px;
     }
 
     .changelog-date {
       font-size: 12px;
       color: var(--text-muted);
+      background: rgba(200, 166, 255, 0.08);
+      border: 1px solid rgba(200, 166, 255, 0.18);
+      padding: 4px 10px;
+      border-radius: 8px;
     }
 
     .changelog-body {
@@ -389,11 +422,11 @@
 
     .changelog-body ul {
       margin-left: 20px;
-      margin-top: 8px;
+      margin-top: 10px;
     }
 
     .changelog-body li {
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     /* Installation Steps */
@@ -411,26 +444,32 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 18px;
-      padding: 22px;
+      padding: 24px;
       position: relative;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
     }
 
     .step-number {
       font-family: 'Outfit', sans-serif;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 800;
       color: var(--accent);
       background: rgba(200, 166, 255, 0.15);
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 8px;
-      margin-bottom: 12px;
+      border: 1px solid rgba(200, 166, 255, 0.25);
+      padding: 3px 8px;
+      border-radius: 6px;
     }
 
     .step-title {
       font-size: 16px;
       font-weight: 700;
-      margin-bottom: 6px;
+      color: var(--text);
     }
 
     .step-desc {
@@ -441,7 +480,7 @@
     /* Footer */
     footer {
       border-top: 1px solid var(--card-border);
-      padding: 36px 0;
+      padding: 40px 0;
       text-align: center;
       font-size: 13px;
       color: var(--text-sub);
@@ -466,7 +505,7 @@
 
     @media (max-width: 600px) {
       .hero { padding: 40px 0 20px; }
-      .phone-frame { width: 230px; }
+      .phone-frame { width: 236px; }
       .features-grid { grid-template-columns: 1fr; }
     }
   </style>
@@ -479,7 +518,7 @@
     <!-- Header -->
     <header>
       <a href="#" class="brand">
-        <img src="assets/mori_icon.png" alt="Mori Logo">
+        <img src="assets/mori_icon.png" alt="Mori Mascot Logo">
         <span class="brand-name">Mori Launcher</span>
       </a>
       <div class="nav-links">
@@ -498,7 +537,7 @@
 
       <h1 class="hero-title">Your phone, calm &amp; alive.</h1>
       <p class="hero-subtitle">
-        A peaceful, minimalist living landscape launcher for Android. Real-time sun and moon orbits, 60fps live wallpaper, dynamic lock screen sync, and pure focus.
+        A tranquil, minimalist living landscape launcher for Android. Real-time sun &amp; moon orbits, 60fps live wallpaper, dynamic lock screen sync, and pure focus.
       </p>
 
       <!-- Dynamic Download CTA -->
@@ -541,38 +580,80 @@
     <section id="features" class="features-section">
       <h2 class="section-title">Designed for Peace of Mind</h2>
       <div class="features-grid">
+        <!-- Feature 1 -->
         <div class="feature-card">
-          <div class="feature-icon">🌅</div>
+          <div class="feature-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </div>
           <h3 class="feature-title">Living 60fps Scenery</h3>
           <p class="feature-desc">Dynamic sun and moon orbits that naturally progress with the exact hour of the day, gentle drifting clouds, and handcrafted nature.</p>
         </div>
 
+        <!-- Feature 2 -->
         <div class="feature-card">
-          <div class="feature-icon">🔒</div>
+          <div class="feature-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
           <h3 class="feature-title">Dynamic Lock Screen</h3>
-          <p class="feature-desc">Auto-syncs your lock screen wallpaper to the current hour whenever your screen locks. 0 MB storage footprint, zero ongoing battery drain.</p>
+          <p class="feature-desc">Auto-syncs your lock screen wallpaper to the current hour whenever your screen turns off. 0 MB storage footprint, zero ongoing battery drain.</p>
         </div>
 
+        <!-- Feature 3 -->
         <div class="feature-card">
-          <div class="feature-icon">✨</div>
+          <div class="feature-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+          </div>
           <h3 class="feature-title">Mori Live Wallpaper</h3>
           <p class="feature-desc">Run Mori as an interactive system Live Wallpaper behind your home and lock screen with silky-smooth frame pacing.</p>
         </div>
 
+        <!-- Feature 4 -->
         <div class="feature-card">
-          <div class="feature-icon">📱</div>
+          <div class="feature-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+              <line x1="12" y1="18" x2="12.01" y2="18"></line>
+            </svg>
+          </div>
           <h3 class="feature-title">Multi-Layout Freedom</h3>
           <p class="feature-desc">Choose between the classic alphabetical vertical list with scrub rail or modern horizontal dock strips. Tap any preview to test full screen.</p>
         </div>
 
+        <!-- Feature 5 -->
         <div class="feature-card">
-          <div class="feature-icon">⚡</div>
+          <div class="feature-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+          </div>
           <h3 class="feature-title">Lightweight &amp; Battery Safe</h3>
           <p class="feature-desc">100% native Kotlin with Jetpack Compose. Tailored Lite and Balanced graphics presets ensure your battery stays healthy.</p>
         </div>
 
+        <!-- Feature 6 -->
         <div class="feature-card">
-          <div class="feature-icon">🔄</div>
+          <div class="feature-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 4 23 10 17 10"></polyline>
+              <polyline points="1 20 1 14 7 14"></polyline>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+            </svg>
+          </div>
           <h3 class="feature-title">1-Tap In-App Updates</h3>
           <p class="feature-desc">Never miss a new feature. Mori automatically checks for latest releases from GitHub and installs updates with one clean tap in Settings.</p>
         </div>
@@ -585,7 +666,9 @@
       <div class="changelog-card">
         <div class="changelog-header">
           <div class="changelog-tag" id="changelog-tag">
-            <span>✨</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>
+            </svg>
             <span id="changelog-title">Latest Update (v0.3.22)</span>
           </div>
           <span class="changelog-date" id="changelog-date">Updated Recently</span>
@@ -601,20 +684,26 @@
       <h2 class="section-title">How to Install</h2>
       <div class="steps-grid">
         <div class="step-card">
-          <span class="step-number">STEP 1</span>
-          <h3 class="step-title">Download APK</h3>
+          <div class="step-header">
+            <span class="step-number">01</span>
+            <h3 class="step-title">Download APK</h3>
+          </div>
           <p class="step-desc">Tap the download button above to save the latest APK directly to your Android device.</p>
         </div>
 
         <div class="step-card">
-          <span class="step-number">STEP 2</span>
-          <h3 class="step-title">Allow Install</h3>
+          <div class="step-header">
+            <span class="step-number">02</span>
+            <h3 class="step-title">Allow Install</h3>
+          </div>
           <p class="step-desc">Open the downloaded file. If prompted by Android, allow "Install from this source".</p>
         </div>
 
         <div class="step-card">
-          <span class="step-number">STEP 3</span>
-          <h3 class="step-title">Set as Default</h3>
+          <div class="step-header">
+            <span class="step-number">03</span>
+            <h3 class="step-title">Set as Default</h3>
+          </div>
           <p class="step-desc">Press your phone's Home button, select Mori Launcher, and choose "Always" to enjoy your new peaceful home.</p>
         </div>
       </div>
@@ -629,7 +718,7 @@
         <span>•</span>
         <a href="https://www.threads.net/@domncss" target="_blank" rel="noopener">Developer Threads</a>
       </div>
-      <p>Handcrafted with 💜 by Domince Aseberos. Open-source under MIT License.</p>
+      <p>Handcrafted with care by Domince Aseberos. Open-source under MIT License.</p>
     </footer>
   </div>
 
@@ -695,16 +784,14 @@
       }
 
       function formatMarkdown(md) {
-        // Simple, secure sanitizer & markdown list formatter
         let html = md
-          .replace(/^### (.*$)/gim, '<h4 style="margin: 12px 0 6px; color: #FAF5FF; font-size: 15px;">$1</h4>')
-          .replace(/^## (.*$)/gim, '<h3 style="margin: 14px 0 8px; color: #C8A6FF; font-size: 17px;">$1</h3>')
+          .replace(/^### (.*$)/gim, '<h4 style="margin: 14px 0 6px; color: #FAF5FF; font-size: 15px;">$1</h4>')
+          .replace(/^## (.*$)/gim, '<h3 style="margin: 16px 0 8px; color: #C8A6FF; font-size: 17px;">$1</h3>')
           .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
           .replace(/\*(.*?)\*/gim, '<em>$1</em>')
           .replace(/`([^`]+)`/gim, '<code style="background: rgba(200,166,255,0.15); padding: 2px 6px; border-radius: 4px; font-size: 12px;">$1</code>')
           .replace(/^\- (.*$)/gim, '<li>$1</li>');
 
-        // Wrap orphan li in ul
         html = html.replace(/(<li>.*<\/li>)/gms, '<ul>$1</ul>');
         return html;
       }
