@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mori Launcher — Peaceful Living Landscape Android Launcher</title>
+  <meta name="description" content="A peaceful, aesthetic living landscape home screen for Android with real-time sun/moon trajectories, live animated wallpaper, dynamic lock screen sync, and zero clutter.">
+  <meta name="theme-color" content="#131022">
+
+  <!-- Open Graph / Meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Mori Launcher — Aesthetic Living Landscape Android Launcher">
+  <meta property="og:description" content="Minimalist, tranquil Android launcher with living 60fps scenery, real-time celestial trajectory, and dynamic lock screen sync.">
+  <meta property="og:image" content="assets/mori_preview.png">
+  <link rel="icon" type="image/png" href="assets/mori_icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #131022;
+      --card-bg: #1B152B;
+      --card-border: rgba(126, 97, 154, 0.28);
+      --accent: #C8A6FF;
+      --accent-glow: rgba(200, 166, 255, 0.35);
+      --accent-hover: #b68ef5;
+      --text: #FAF5FF;
+      --text-muted: #9E8DB0;
+      --text-sub: #7E6F8F;
+      --success: #6EE7B7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      overflow-x: hidden;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Background Ambient Glow */
+    .ambient-glow {
+      position: fixed;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(147, 95, 219, 0.2) 0%, rgba(19, 16, 34, 0) 70%);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header Nav */
+    header {
+      padding: 24px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .brand img {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      box-shadow: 0 4px 14px var(--accent-glow);
+    }
+
+    .brand-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-link:hover {
+      color: var(--accent);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 60px 0 40px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(200, 166, 255, 0.12);
+      border: 1px solid rgba(200, 166, 255, 0.3);
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 24px;
+      backdrop-filter: blur(8px);
+    }
+
+    .badge-pill .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 10px var(--success);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.6; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.15); }
+      100% { opacity: 0.6; transform: scale(0.9); }
+    }
+
+    .hero-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(38px, 6vw, 64px);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1.5px;
+      margin-bottom: 20px;
+      background: linear-gradient(180deg, #FFFFFF 20%, #E9D8FD 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(16px, 2.5vw, 20px);
+      color: var(--text-muted);
+      max-width: 620px;
+      margin: 0 auto 36px;
+      line-height: 1.5;
+    }
+
+    /* Dynamic Download Button Area */
+    .cta-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      max-width: 440px;
+    }
+
+    .btn-download {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      background: var(--accent);
+      color: #131022;
+      padding: 16px 28px;
+      border-radius: 16px;
+      text-decoration: none;
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      box-shadow: 0 10px 30px var(--accent-glow);
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-download:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 38px rgba(200, 166, 255, 0.45);
+    }
+
+    .btn-download:active {
+      transform: translateY(1px);
+    }
+
+    .btn-download svg {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+
+    .btn-download .meta {
+      font-size: 12px;
+      font-weight: 500;
+      opacity: 0.85;
+      margin-left: 4px;
+    }
+
+    .btn-github {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      background: rgba(126, 97, 154, 0.15);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      padding: 12px 24px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .btn-github:hover {
+      background: rgba(126, 97, 154, 0.28);
+      border-color: rgba(200, 166, 255, 0.4);
+    }
+
+    .btn-github svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    .download-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--text-sub);
+      margin-top: 4px;
+    }
+
+    /* Phone Mockup Display */
+    .preview-showcase {
+      margin: 50px 0 70px;
+      display: flex;
+      justify-content: center;
+      position: relative;
+    }
+
+    .phone-frame {
+      width: 280px;
+      border-radius: 36px;
+      border: 4px solid rgba(200, 166, 255, 0.2);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 50px -10px var(--accent-glow);
+      background: #1B152B;
+      overflow: hidden;
+      transition: transform 0.4s ease;
+    }
+
+    .phone-frame:hover {
+      transform: translateY(-6px) scale(1.02);
+    }
+
+    .phone-frame img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Features Grid */
+    .features-section {
+      padding: 40px 0 60px;
+    }
+
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 36px;
+      letter-spacing: -0.5px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 20px;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 26px;
+      transition: all 0.25s ease;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(200, 166, 255, 0.45);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .feature-icon {
+      font-size: 32px;
+      margin-bottom: 14px;
+      display: inline-block;
+    }
+
+    .feature-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 19px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .feature-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* What's New Card */
+    .changelog-section {
+      margin: 40px 0;
+    }
+
+    .changelog-card {
+      background: linear-gradient(180deg, #1F1833 0%, #171226 100%);
+      border: 1px solid rgba(200, 166, 255, 0.25);
+      border-radius: 20px;
+      padding: 28px;
+    }
+
+    .changelog-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .changelog-tag {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .changelog-date {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .changelog-body {
+      font-size: 14px;
+      color: #E2D9EE;
+      line-height: 1.7;
+    }
+
+    .changelog-body ul {
+      margin-left: 20px;
+      margin-top: 8px;
+    }
+
+    .changelog-body li {
+      margin-bottom: 6px;
+    }
+
+    /* Installation Steps */
+    .steps-section {
+      padding: 40px 0 60px;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .step-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 22px;
+      position: relative;
+    }
+
+    .step-number {
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--accent);
+      background: rgba(200, 166, 255, 0.15);
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    .step-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .step-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 36px 0;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-sub);
+    }
+
+    footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover {
+      color: var(--accent);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .hero { padding: 40px 0 20px; }
+      .phone-frame { width: 230px; }
+      .features-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-glow"></div>
+
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <a href="#" class="brand">
+        <img src="assets/mori_icon.png" alt="Mori Logo">
+        <span class="brand-name">Mori Launcher</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#changelog" class="nav-link">What's New</a>
+        <a href="https://github.com/DominceAseberos/Mori-Luncher" target="_blank" rel="noopener" class="nav-link">GitHub</a>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="badge-pill">
+        <span class="pulse-dot"></span>
+        <span id="live-version-badge">Latest: v0.3.22 · Open Source</span>
+      </div>
+
+      <h1 class="hero-title">Your phone, calm &amp; alive.</h1>
+      <p class="hero-subtitle">
+        A peaceful, minimalist living landscape launcher for Android. Real-time sun and moon orbits, 60fps live wallpaper, dynamic lock screen sync, and pure focus.
+      </p>
+
+      <!-- Dynamic Download CTA -->
+      <div class="cta-group">
+        <a id="download-btn" href="https://github.com/DominceAseberos/Mori-Releases/releases/download/v0.3.22/Mori-Launcher-v0.3.22.apk" class="btn-download">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Download Mori APK</span>
+          <span id="download-size" class="meta">(8.97 MB)</span>
+        </a>
+
+        <a href="https://github.com/DominceAseberos/Mori-Releases/releases" target="_blank" rel="noopener" class="btn-github">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <span>All Releases &amp; Source Code</span>
+        </a>
+
+        <div class="download-meta">
+          <span id="version-label">Version v0.3.22</span>
+          <span>•</span>
+          <span>Android 8.0+</span>
+          <span>•</span>
+          <span>No Ads · No Trackers</span>
+        </div>
+      </div>
+
+      <!-- Live Mockup -->
+      <div class="preview-showcase">
+        <div class="phone-frame">
+          <img src="assets/mori_preview.png" alt="Mori Launcher Android Preview">
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+      <h2 class="section-title">Designed for Peace of Mind</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🌅</div>
+          <h3 class="feature-title">Living 60fps Scenery</h3>
+          <p class="feature-desc">Dynamic sun and moon orbits that naturally progress with the exact hour of the day, gentle drifting clouds, and handcrafted nature.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3 class="feature-title">Dynamic Lock Screen</h3>
+          <p class="feature-desc">Auto-syncs your lock screen wallpaper to the current hour whenever your screen locks. 0 MB storage footprint, zero ongoing battery drain.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">✨</div>
+          <h3 class="feature-title">Mori Live Wallpaper</h3>
+          <p class="feature-desc">Run Mori as an interactive system Live Wallpaper behind your home and lock screen with silky-smooth frame pacing.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📱</div>
+          <h3 class="feature-title">Multi-Layout Freedom</h3>
+          <p class="feature-desc">Choose between the classic alphabetical vertical list with scrub rail or modern horizontal dock strips. Tap any preview to test full screen.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3 class="feature-title">Lightweight &amp; Battery Safe</h3>
+          <p class="feature-desc">100% native Kotlin with Jetpack Compose. Tailored Lite and Balanced graphics presets ensure your battery stays healthy.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🔄</div>
+          <h3 class="feature-title">1-Tap In-App Updates</h3>
+          <p class="feature-desc">Never miss a new feature. Mori automatically checks for latest releases from GitHub and installs updates with one clean tap in Settings.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- What's New Section -->
+    <section id="changelog" class="changelog-section">
+      <h2 class="section-title">What's New</h2>
+      <div class="changelog-card">
+        <div class="changelog-header">
+          <div class="changelog-tag" id="changelog-tag">
+            <span>✨</span>
+            <span id="changelog-title">Latest Update (v0.3.22)</span>
+          </div>
+          <span class="changelog-date" id="changelog-date">Updated Recently</span>
+        </div>
+        <div class="changelog-body" id="changelog-content">
+          <p>Loading latest release notes from GitHub...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Installation Steps -->
+    <section class="steps-section">
+      <h2 class="section-title">How to Install</h2>
+      <div class="steps-grid">
+        <div class="step-card">
+          <span class="step-number">STEP 1</span>
+          <h3 class="step-title">Download APK</h3>
+          <p class="step-desc">Tap the download button above to save the latest APK directly to your Android device.</p>
+        </div>
+
+        <div class="step-card">
+          <span class="step-number">STEP 2</span>
+          <h3 class="step-title">Allow Install</h3>
+          <p class="step-desc">Open the downloaded file. If prompted by Android, allow "Install from this source".</p>
+        </div>
+
+        <div class="step-card">
+          <span class="step-number">STEP 3</span>
+          <h3 class="step-title">Set as Default</h3>
+          <p class="step-desc">Press your phone's Home button, select Mori Launcher, and choose "Always" to enjoy your new peaceful home.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-links">
+        <a href="https://github.com/DominceAseberos/Mori-Luncher" target="_blank" rel="noopener">GitHub Repository</a>
+        <span>•</span>
+        <a href="https://github.com/DominceAseberos/Mori-Releases" target="_blank" rel="noopener">Releases &amp; APKs</a>
+        <span>•</span>
+        <a href="https://www.threads.net/@domncss" target="_blank" rel="noopener">Developer Threads</a>
+      </div>
+      <p>Handcrafted with 💜 by Domince Aseberos. Open-source under MIT License.</p>
+    </footer>
+  </div>
+
+  <!-- Dynamic Release Updater Script -->
+  <script>
+    (async function initDynamicUpdater() {
+      const repoReleases = "DominceAseberos/Mori-Releases";
+      const apiUrl = `https://api.github.com/repos/${repoReleases}/releases/latest`;
+
+      const downloadBtn = document.getElementById("download-btn");
+      const downloadSize = document.getElementById("download-size");
+      const versionLabel = document.getElementById("version-label");
+      const versionBadge = document.getElementById("live-version-badge");
+      const changelogTitle = document.getElementById("changelog-title");
+      const changelogDate = document.getElementById("changelog-date");
+      const changelogContent = document.getElementById("changelog-content");
+
+      try {
+        const res = await fetch(apiUrl);
+        if (!res.ok) throw new Error("GitHub API request failed: " + res.status);
+        const data = await res.json();
+
+        const tag = data.tag_name || "v0.3.22";
+        const asset = (data.assets || []).find(a => a.name.endsWith(".apk")) || (data.assets && data.assets[0]);
+
+        if (asset && asset.browser_download_url) {
+          downloadBtn.href = asset.browser_download_url;
+          const mb = (asset.size / (1024 * 1024)).toFixed(2);
+          downloadSize.textContent = `(${mb} MB)`;
+        } else {
+          downloadBtn.href = data.html_url;
+        }
+
+        // Update Version Labels
+        versionLabel.textContent = `Version ${tag}`;
+        versionBadge.textContent = `Latest: ${tag} · Open Source`;
+        changelogTitle.textContent = `Latest Update (${tag})`;
+
+        // Format Date
+        if (data.published_at) {
+          const dateObj = new Date(data.published_at);
+          changelogDate.textContent = dateObj.toLocaleDateString(undefined, {
+            year: "numeric", month: "short", day: "numeric"
+          });
+        }
+
+        // Parse and Render Changelog Body
+        if (data.body) {
+          changelogContent.innerHTML = formatMarkdown(data.body);
+        } else {
+          changelogContent.innerHTML = "<p>Continuous performance enhancements and visual updates.</p>";
+        }
+
+      } catch (err) {
+        console.warn("Could not fetch latest release dynamically, using fallback:", err);
+        changelogContent.innerHTML = `
+          <ul>
+            <li><strong>Live Animated Wallpaper:</strong> Full 60fps living scenery on Home & Lock screen.</li>
+            <li><strong>Dynamic Lock Screen (Auto-Sync):</strong> Automatically refreshes lock screen to current sun & time when locked.</li>
+            <li><strong>Modular Settings:</strong> Scalable category tabs and elegant card surfaces.</li>
+          </ul>
+        `;
+      }
+
+      function formatMarkdown(md) {
+        // Simple, secure sanitizer & markdown list formatter
+        let html = md
+          .replace(/^### (.*$)/gim, '<h4 style="margin: 12px 0 6px; color: #FAF5FF; font-size: 15px;">$1</h4>')
+          .replace(/^## (.*$)/gim, '<h3 style="margin: 14px 0 8px; color: #C8A6FF; font-size: 17px;">$1</h3>')
+          .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+          .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+          .replace(/`([^`]+)`/gim, '<code style="background: rgba(200,166,255,0.15); padding: 2px 6px; border-radius: 4px; font-size: 12px;">$1</code>')
+          .replace(/^\- (.*$)/gim, '<li>$1</li>');
+
+        // Wrap orphan li in ul
+        html = html.replace(/(<li>.*<\/li>)/gms, '<ul>$1</ul>');
+        return html;
+      }
+    })();
+  </script>
+</body>
+</html>
