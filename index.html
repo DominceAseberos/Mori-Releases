@@ -532,7 +532,7 @@
     <section class="hero">
       <div class="badge-pill">
         <span class="pulse-dot"></span>
-        <span id="live-version-badge">Latest: v0.3.27 · Open Source</span>
+        <span id="live-version-badge">Latest: v0.3.28 · Open Source</span>
       </div>
 
       <h1 class="hero-title">Your phone, calm &amp; alive.</h1>
@@ -542,7 +542,7 @@
 
       <!-- Dynamic Download CTA -->
       <div class="cta-group">
-        <a id="download-btn" href="https://github.com/DominceAseberos/Mori-Releases/releases/download/v0.3.27/Mori-Launcher-v0.3.27.apk" class="btn-download">
+        <a id="download-btn" href="https://github.com/DominceAseberos/Mori-Releases/releases/download/v0.3.28/Mori-Launcher-v0.3.28.apk" class="btn-download">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
             <polyline points="7 10 12 15 17 10"></polyline>
@@ -560,7 +560,7 @@
         </a>
 
         <div class="download-meta">
-          <span id="version-label">Version v0.3.27</span>
+          <span id="version-label">Version v0.3.28</span>
           <span>•</span>
           <span>Android 8.0+</span>
           <span>•</span>
@@ -669,7 +669,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>
             </svg>
-            <span id="changelog-title">Latest Update (v0.3.27)</span>
+            <span id="changelog-title">Latest Update (v0.3.28)</span>
           </div>
           <span class="changelog-date" id="changelog-date">Updated Recently</span>
         </div>
@@ -741,7 +741,7 @@
         if (!res.ok) throw new Error("GitHub API request failed: " + res.status);
         const data = await res.json();
 
-        const tag = data.tag_name || "v0.3.27";
+        const tag = data.tag_name || "v0.3.28";
         const asset = (data.assets || []).find(a => a.name.endsWith(".apk")) || (data.assets && data.assets[0]);
 
         if (asset && asset.browser_download_url) {
